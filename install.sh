@@ -27,3 +27,6 @@ link zprofile  .zprofile
 link gitconfig .gitconfig
 link gitignore .gitignore
 link vimrc     .vimrc
+
+mkdir -p "$HOME/.claude"
+link claude/CLAUDE.md .claude/CLAUDE.md
