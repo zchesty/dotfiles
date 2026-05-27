@@ -1,5 +1,4 @@
-[user]
-	name = Zachary Chestler
-	email = zckchstlr@gmail.com
 [core]
 	excludesfile = ~/.gitignore
+[include]
+	path = ~/.gitconfig.local
