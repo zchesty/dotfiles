@@ -21,6 +21,8 @@ cd ~/Development/dotfiles
 bash install.sh
 ```
 
+`install.sh` also installs vim-plug and vim-go binaries (including `gopls`). Go must be installed and in `PATH` first for the vim-go step to run.
+
 ## Local overrides
 
 Machine-specific config goes in gitignored `*.local` files:

@@ -30,3 +30,25 @@ link vimrc     .vimrc
 
 mkdir -p "$HOME/.claude"
 link claude/CLAUDE.md .claude/CLAUDE.md
+
+# Install vim-plug if not already present
+PLUG="$HOME/.vim/autoload/plug.vim"
+if [[ ! -f "$PLUG" ]]; then
+  curl -fLo "$PLUG" --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  echo "installed vim-plug"
+else
+  echo "ok      vim-plug"
+fi
+
+# Install vim plugins
+vim +PlugInstall +qall
+echo "ok      vim plugins"
+
+# Install Go binaries (gopls etc.) — requires go in PATH
+if command -v go &>/dev/null; then
+  vim +GoInstallBinaries +qall
+  echo "ok      vim-go binaries"
+else
+  echo "skip    vim-go binaries (go not in PATH)"
+fi
