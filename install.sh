@@ -26,3 +26,4 @@ link zshrc     .zshrc
 link zprofile  .zprofile
 link gitconfig .gitconfig
 link gitignore .gitignore
+link vimrc     .vimrc
