@@ -1,0 +1,5 @@
+[user]
+	name = Zachary Chestler
+	email = zckchstlr@gmail.com
+[core]
+	excludesfile = ~/.gitignore
