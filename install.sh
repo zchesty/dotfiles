@@ -29,7 +29,9 @@ link gitignore .gitignore
 link vimrc     .vimrc
 
 mkdir -p "$HOME/.claude"
-link claude/CLAUDE.md .claude/CLAUDE.md
+link claude/CLAUDE.md            .claude/CLAUDE.md
+link claude/settings.json       .claude/settings.json
+link claude/statusline-command.sh .claude/statusline-command.sh
 
 # Install vim-plug if not already present
 PLUG="$HOME/.vim/autoload/plug.vim"
