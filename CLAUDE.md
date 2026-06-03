@@ -11,7 +11,6 @@
 - Sparse over impressive. 10 aliases I use beats 100 I don't.
 - No dependencies beyond standard Unix tools for core scripts.
 - Re-run safety: setup scripts must be idempotent.
-- `install.sh` may install specific required tools via Homebrew (e.g. `sandvault`); such steps must be idempotent and warn-and-continue on failure, never abort the run.
 - Secrets stay out of this repo. Use `*.local` files (gitignored) sourced from main configs.
 - One-line comment above any non-obvious alias or function.
 
@@ -20,7 +19,7 @@
 - Windows or PowerShell
 - Cross-platform branching (Mac only)
 - Plugin managers, dotfile frameworks (chezmoi, stow, yadm)
-- A full Brewfile or bulk package management (install only specific required tools)
+- Automated package installation (no Brewfile yet)
 
 ## When extending
 
