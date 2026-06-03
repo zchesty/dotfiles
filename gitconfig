@@ -2,3 +2,6 @@
 	excludesfile = ~/.gitignore
 [include]
 	path = ~/.gitconfig.local
+[safe]
+	# Shared with the sandvault user; both accounts touch repos here
+	directory = /Users/Shared/sv-zackchestler/*

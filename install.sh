@@ -54,3 +54,30 @@ if command -v go &>/dev/null; then
 else
   echo "skip    vim-go binaries (go not in PATH)"
 fi
+
+# Install sandvault (sandboxed agent runner); never fail the whole install over it
+if command -v sv &>/dev/null; then
+  echo "ok      sandvault"
+elif command -v brew &>/dev/null; then
+  brew install sandvault && echo "installed sandvault" \
+    || echo "warn    sandvault install failed; continuing"
+else
+  echo "skip    sandvault (brew not found)"
+fi
+
+# Sync dotfiles into the sandvault shared workspace so sandboxed sessions inherit them.
+# The workspace exists only after sandvault has built (sv build / sv shell).
+SV_USER="/Users/Shared/sv-${USER}/user"
+if [[ -d "$SV_USER" && -w "$SV_USER" ]]; then
+  cp zshrc     "$SV_USER/.zshrc"
+  cp zprofile  "$SV_USER/.zprofile"
+  cp gitconfig "$SV_USER/.gitconfig"
+  cp vimrc     "$SV_USER/.vimrc"
+  mkdir -p "$SV_USER/.claude"
+  cp claude/CLAUDE.md claude/settings.json claude/statusline-command.sh "$SV_USER/.claude/"
+  # Carry git identity so sandboxed commits work (sandvault skips its own gitconfig once ours exists)
+  [[ -f "$HOME/.gitconfig.local" ]] && cp "$HOME/.gitconfig.local" "$SV_USER/.gitconfig.local"
+  echo "synced  dotfiles -> $SV_USER"
+else
+  echo "skip    sandvault sync ($SV_USER missing; run 'sv build' first, then re-run)"
+fi
