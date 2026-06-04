@@ -33,6 +33,14 @@ link claude/CLAUDE.md            .claude/CLAUDE.md
 link claude/settings.json       .claude/settings.json
 link claude/statusline-command.sh .claude/statusline-command.sh
 
+# Symlink each skill individually so externally-installed skills (e.g. brew) coexist
+mkdir -p "$HOME/.claude/skills"
+for skill in "$DOTFILES"/claude/skills/*/; do
+  [[ -d "$skill" ]] || continue
+  name="$(basename "$skill")"
+  link "claude/skills/$name" ".claude/skills/$name"
+done
+
 # Install vim-plug if not already present
 PLUG="$HOME/.vim/autoload/plug.vim"
 if [[ ! -f "$PLUG" ]]; then

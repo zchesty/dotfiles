@@ -14,6 +14,7 @@ Personal macOS dotfiles.
 | `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | `claude/settings.json` | `~/.claude/settings.json` |
 | `claude/statusline-command.sh` | `~/.claude/statusline-command.sh` |
+| `claude/skills/<name>/` | `~/.claude/skills/<name>/` |
 
 ## Install
 
@@ -42,3 +43,5 @@ Machine-specific config goes in gitignored `*.local` files:
 - **Statusline** — `model effort · ±changes · branch · ctx%`, pure `sh` + `git` (no `jq`).
 
 Global agent rules live in `claude/CLAUDE.md`. Since `settings.json` is symlinked, "always allow" choices and `/config` changes write back into this repo.
+
+Each directory under `claude/skills/` is symlinked into `~/.claude/skills/`, so custom skills sync to every machine. `install.sh` links them individually (not the whole folder), so externally-installed skills can coexist there. Add a skill by dropping `claude/skills/<name>/SKILL.md` in and re-running `install.sh`.
