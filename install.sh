@@ -32,6 +32,7 @@ mkdir -p "$HOME/.claude"
 link claude/CLAUDE.md            .claude/CLAUDE.md
 link claude/settings.json       .claude/settings.json
 link claude/statusline-command.sh .claude/statusline-command.sh
+link claude/git-push-guard.sh     .claude/git-push-guard.sh
 
 # Install vim-plug if not already present
 PLUG="$HOME/.vim/autoload/plug.vim"

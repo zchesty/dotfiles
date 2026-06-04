@@ -7,6 +7,7 @@ Apply everywhere. A repo's own CLAUDE.md overrides and extends these.
 - Do not be creative. Follow the user's direction and let them drive creative decisions.
 - Prefer one clarifying question over guessing scope.
 - Re-read files after each new prompt; keep edits the user made by hand.
+- Before overwriting something you may not hold the latest copy of — a file, a PR description, an issue body — re-fetch it first and check whether I changed it since you last read it. If I did, fold my changes in rather than clobbering them.
 - Keep the diff small. For bug fixes, change the fewest lines that solve the problem.
 - Follow YAGNI and DRY. Inline variables and helpers used only once.
 - Match the surrounding code's style, naming, and comment density.
