@@ -40,6 +40,21 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "python3 \"$HOME/.claude/hooks/load_branch_decisions.py\"" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "ExitPlanMode",
+        "hooks": [
+          { "type": "command", "command": "python3 \"$HOME/.claude/hooks/log_plan.py\"" }
+        ]
+      }
     ]
   }
 }

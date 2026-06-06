@@ -38,6 +38,14 @@ link claude/settings.json       .claude/settings.json
 link claude/statusline-command.sh .claude/statusline-command.sh
 link claude/git-push-guard.sh     .claude/git-push-guard.sh
 
+# Symlink hooks individually so externally-installed hooks coexist
+mkdir -p "$HOME/.claude/hooks"
+for hook in "$DOTFILES"/claude/hooks/*; do
+  [[ -f "$hook" ]] || continue
+  name="$(basename "$hook")"
+  link "claude/hooks/$name" ".claude/hooks/$name"
+done
+
 # Symlink each skill individually so externally-installed skills (e.g. brew) coexist
 mkdir -p "$HOME/.claude/skills"
 for skill in "$DOTFILES"/claude/skills/*/; do
@@ -46,24 +54,28 @@ for skill in "$DOTFILES"/claude/skills/*/; do
   link "claude/skills/$name" ".claude/skills/$name"
 done
 
-# Install vim-plug if not already present
-PLUG="$HOME/.vim/autoload/plug.vim"
-if [[ ! -f "$PLUG" ]]; then
-  curl -fLo "$PLUG" --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  echo "installed vim-plug"
-else
-  echo "ok      vim-plug"
-fi
+if command -v vim &>/dev/null; then
+  # Install vim-plug if not already present
+  PLUG="$HOME/.vim/autoload/plug.vim"
+  if [[ ! -f "$PLUG" ]]; then
+    curl -fLo "$PLUG" --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    echo "installed vim-plug"
+  else
+    echo "ok      vim-plug"
+  fi
 
-# Install vim plugins
-vim +PlugInstall +qall
-echo "ok      vim plugins"
+  # Install vim plugins
+  vim +PlugInstall +qall
+  echo "ok      vim plugins"
 
-# Install Go binaries (gopls etc.) — requires go in PATH
-if command -v go &>/dev/null; then
-  vim +GoInstallBinaries +qall
-  echo "ok      vim-go binaries"
+  # Install Go binaries (gopls etc.) — requires go in PATH
+  if command -v go &>/dev/null; then
+    vim +GoInstallBinaries +qall
+    echo "ok      vim-go binaries"
+  else
+    echo "skip    vim-go binaries (go not in PATH)"
+  fi
 else
-  echo "skip    vim-go binaries (go not in PATH)"
+  echo "skip    vim plugins (vim not in PATH)"
 fi

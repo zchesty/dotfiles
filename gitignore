@@ -26,6 +26,16 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# Editor
+*.swp
+*.swo
+
+# Secrets
+.env
+
+# Logs
+*.log
+
 #python
 /venv-*
 **/__pycache__
@@ -33,3 +43,6 @@ Temporary Items
 
 #vs code
 /.vscode
+
+# Claude Code per-branch decision logs
+.decisions/
