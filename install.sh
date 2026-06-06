@@ -35,7 +35,7 @@ link git-hooks .config/git/hooks
 mkdir -p "$HOME/.claude"
 link claude/CLAUDE.md            .claude/CLAUDE.md
 link claude/settings.json       .claude/settings.json
-link claude/statusline-command.sh .claude/statusline-command.sh
+link claude/statusline-command.py .claude/statusline-command.py
 link claude/git-push-guard.sh     .claude/git-push-guard.sh
 
 # Symlink hooks individually so externally-installed hooks coexist
