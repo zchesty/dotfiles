@@ -39,7 +39,8 @@ Machine-specific config goes in gitignored `*.local` files:
 
 `claude/settings.json` sets up an agentic workflow:
 
-- **Permissions** — auto-allows read-only git, `git add`/`commit`/`merge`/`rebase`, and the Go dev loop (`go build`/`test`/`vet`/`run`, `gofmt`). Denies `git push`. `defaultMode` is `acceptEdits` (file edits apply without a prompt).
+- **Permissions** — auto-allows read-only git, `git add`/`commit`/`merge`/`rebase`/`push`, and the Go dev loop (`go build`/`test`/`vet`/`run`, `gofmt`). `defaultMode` is `acceptEdits` (file edits apply without a prompt).
+- **Push guard** — a `git-push-guard.sh` PreToolUse hook hard-blocks `git push` to `main`/`master`; pushes to feature branches go through without a prompt.
 - **Statusline** — `model effort · ±changes · branch · ctx%`, pure `sh` + `git` (no `jq`).
 
 Global agent rules live in `claude/CLAUDE.md`. Since `settings.json` is symlinked, "always allow" choices and `/config` changes write back into this repo.

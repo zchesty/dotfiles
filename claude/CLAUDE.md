@@ -16,6 +16,6 @@ Apply everywhere. A repo's own CLAUDE.md overrides and extends these.
 ## Git
 
 - Never commit directly to a default branch (main/master). Branch off origin/HEAD first with a descriptive name.
-- Never `git push` without explicit permission.
+- Pushing to a feature branch is fine; never `git push` to `main`/`master` (a hook enforces this).
 - Prefer amending the current branch's tip over stacking follow-up "fix" commits, unless the change is logically separate.
 - Commit messages: imperative subject under ~50 chars, wrap files and identifiers in backticks, say why over what.
