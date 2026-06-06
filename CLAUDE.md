@@ -9,7 +9,7 @@
 ## Design principles
 
 - Sparse over impressive. 10 aliases I use beats 100 I don't.
-- No dependencies beyond standard Unix tools for core scripts.
+- Keep dependencies light. Prefer standard Unix tools, but `python3`/`jq` are fine where they clearly simplify a script.
 - Re-run safety: setup scripts must be idempotent.
 - Secrets stay out of this repo. Use `*.local` files (gitignored) sourced from main configs.
 - One-line comment above any non-obvious alias or function.

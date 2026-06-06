@@ -34,6 +34,14 @@ link claude/settings.json       .claude/settings.json
 link claude/statusline-command.sh .claude/statusline-command.sh
 link claude/git-push-guard.sh     .claude/git-push-guard.sh
 
+# Symlink hooks individually so externally-installed hooks coexist
+mkdir -p "$HOME/.claude/hooks"
+for hook in "$DOTFILES"/claude/hooks/*; do
+  [[ -f "$hook" ]] || continue
+  name="$(basename "$hook")"
+  link "claude/hooks/$name" ".claude/hooks/$name"
+done
+
 # Symlink each skill individually so externally-installed skills (e.g. brew) coexist
 mkdir -p "$HOME/.claude/skills"
 for skill in "$DOTFILES"/claude/skills/*/; do

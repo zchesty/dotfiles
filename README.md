@@ -14,6 +14,7 @@ Personal macOS dotfiles.
 | `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` |
 | `claude/settings.json` | `~/.claude/settings.json` |
 | `claude/statusline-command.sh` | `~/.claude/statusline-command.sh` |
+| `claude/hooks/<name>` | `~/.claude/hooks/<name>` |
 | `claude/skills/<name>/` | `~/.claude/skills/<name>/` |
 
 ## Install
@@ -45,4 +46,14 @@ Machine-specific config goes in gitignored `*.local` files:
 
 Global agent rules live in `claude/CLAUDE.md`. Since `settings.json` is symlinked, "always allow" choices and `/config` changes write back into this repo.
 
-Each directory under `claude/skills/` is symlinked into `~/.claude/skills/`, so custom skills sync to every machine. `install.sh` links them individually (not the whole folder), so externally-installed skills can coexist there. Add a skill by dropping `claude/skills/<name>/SKILL.md` in and re-running `install.sh`.
+Each directory under `claude/skills/` is symlinked into `~/.claude/skills/`, so custom skills sync to every machine. `install.sh` links them individually (not the whole folder), so externally-installed skills can coexist there. Add a skill by dropping `claude/skills/<name>/SKILL.md` in and re-running `install.sh`. Hooks under `claude/hooks/` are linked the same way.
+
+### Branch decision log
+
+A per-git-branch "decision log" captures working context as a branch evolves and reloads it when a new session starts on that branch. Logs live at `<project>/.decisions/<branch>.md` (any `/` in the branch name becomes `-`), and `.decisions/` is in the global `gitignore` so it never has to be handled per-repo.
+
+- **Resume** — a `SessionStart` hook (`hooks/load_branch_decisions.py`) injects the current branch's log into the new session's context.
+- **Plan capture** — a `PostToolUse` hook on `ExitPlanMode` (`hooks/log_plan.py`) appends each approved plan, timestamped. No model action needed.
+- **Ad-hoc capture** — the `log-decision` skill records a decision made outside a formal plan (`/log-decision` or "log this decision").
+
+In a non-git directory the hooks no-op and write nothing.

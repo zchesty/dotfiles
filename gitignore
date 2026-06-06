@@ -33,3 +33,6 @@ Temporary Items
 
 #vs code
 /.vscode
+
+# Claude Code per-branch decision logs
+.decisions/
