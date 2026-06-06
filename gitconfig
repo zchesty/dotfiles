@@ -1,4 +1,8 @@
 [core]
 	excludesfile = ~/.gitignore
+	hooksPath = ~/.config/git/hooks
+[pull]
+	# Only allow `git pull` when it can fast-forward; otherwise stop instead of merging/rebasing
+	ff = only
 [include]
 	path = ~/.gitconfig.local
