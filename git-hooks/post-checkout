@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# After switching branches, refresh remote refs in the background.
+# Uses `git fetch` (not pull) so it never touches the working tree, never
+# blocks the checkout, and never errors on a diverged branch.
+
+# $3 is the checkout flag: 1 = branch checkout, 0 = file checkout. Only act on real branch switches.
+[ "$3" = "1" ] || exit 0
+
+git_dir=$(git rev-parse --git-dir 2>/dev/null) || exit 0
+
+# Skip mid-operation (rebase/merge/bisect) to avoid a storm of fetches as HEAD moves.
+for state in rebase-merge rebase-apply MERGE_HEAD BISECT_LOG; do
+  [ -e "$git_dir/$state" ] && exit 0
+done
+
+# Only fetch if the new branch tracks an upstream; derive the remote (e.g. "origin") from "origin/main".
+upstream=$(git rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null) || exit 0
+remote=${upstream%%/*}
+
+# Detach the fetch: redirect output so git doesn't wait on it and the prompt returns immediately.
+git fetch --quiet "$remote" >/dev/null 2>&1 &
+
+exit 0
