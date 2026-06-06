@@ -28,6 +28,10 @@ link gitconfig .gitconfig
 link gitignore .gitignore
 link vimrc     .vimrc
 
+# Global git hooks (referenced by core.hooksPath in gitconfig)
+mkdir -p "$HOME/.config/git"
+link git-hooks .config/git/hooks
+
 mkdir -p "$HOME/.claude"
 link claude/CLAUDE.md            .claude/CLAUDE.md
 link claude/settings.json       .claude/settings.json
