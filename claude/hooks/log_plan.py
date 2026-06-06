@@ -2,14 +2,15 @@
 """PostToolUse[ExitPlanMode] hook: append an approved plan to the branch log.
 
 Where the plan text lives in the hook payload has changed across Claude Code
-versions: older builds passed it inline as tool_input["plan"], while newer
-builds have ExitPlanMode read the plan from a separate plan file. We try the
-known inline locations; if none carries the text this version no-ops rather
-than writing an empty entry.
+versions: older builds passed it inline as tool_input["plan"], while current
+builds leave tool_input empty and surface the plan at tool_response["plan"]
+(with the plan file at tool_response["filePath"]). We read both, taking only
+fields explicitly named "plan" so an approval acknowledgment is never logged
+as a plan; if neither carries text the hook no-ops rather than writing an
+empty entry.
 
-To pin down the field on a given machine, set LOG_PLAN_DEBUG=1 and approve one
-plan: the full raw payload is written to .decisions/.last_plan_payload.json so
-the correct field can be identified and wired in here.
+To re-check the field after a version change, set LOG_PLAN_DEBUG=1 and approve
+one plan: the full raw payload is written to .decisions/.last_plan_payload.json.
 """
 import json, sys, subprocess, os, pathlib, datetime
 
