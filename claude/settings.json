@@ -1,4 +1,5 @@
 {
+  "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
       "Bash(git status:*)",
@@ -22,12 +23,16 @@
       "Bash(go run:*)",
       "Bash(gofmt:*)"
     ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./**/*.local)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)"
+    ],
     "defaultMode": "acceptEdits"
   },
-  "statusLine": {
-    "type": "command",
-    "command": "sh ~/.claude/statusline-command.sh"
-  },
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
@@ -44,7 +49,10 @@
     "SessionStart": [
       {
         "hooks": [
-          { "type": "command", "command": "python3 \"$HOME/.claude/hooks/load_branch_decisions.py\"" }
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/load_branch_decisions.py\""
+          }
         ]
       }
     ],
@@ -52,9 +60,27 @@
       {
         "matcher": "ExitPlanMode",
         "hooks": [
-          { "type": "command", "command": "python3 \"$HOME/.claude/hooks/log_plan.py\"" }
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/log_plan.py\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Glass.aiff"
+          }
         ]
       }
     ]
-  }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "python3 ~/.claude/statusline-command.py"
+  },
+  "skipDangerousModePermissionPrompt": true
 }
