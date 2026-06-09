@@ -21,7 +21,13 @@
       "Bash(go test:*)",
       "Bash(go vet:*)",
       "Bash(go run:*)",
-      "Bash(gofmt:*)"
+      "Bash(go doc:*)",
+      "Bash(go mod tidy)",
+      "Bash(gofmt:*)",
+      "Bash(ls:*)",
+      "Bash(rg:*)",
+      "Bash(wc:*)",
+      "Bash(jq:*)"
     ],
     "deny": [
       "Read(./.env)",
