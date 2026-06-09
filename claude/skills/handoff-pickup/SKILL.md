@@ -8,8 +8,9 @@ argument-hint: "Which handoff to pick up (filename or a description)"
 
 When invoked:
 
-1. Resolve the handoff directory `${TMPDIR:-/tmp}/claude-handoffs/`. If it does
-   not exist or is empty, tell the user there are no handoffs and stop.
+1. Resolve the handoff directory `~/.claude/handoffs/`. If it does not exist or
+   is empty, also check the legacy location `${TMPDIR:-/tmp}/claude-handoffs/`;
+   if both are empty, tell the user there are no handoffs and stop.
 2. Select the handoff to resume:
    - If the user named a file or gave a description, match it against the
      `handoff-*.md` files. On an exact or single clear match, use it.
