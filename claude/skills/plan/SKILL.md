@@ -6,7 +6,7 @@ description: Run plan mode so every approved plan is captured to the decision lo
 # Plan-mode loop (capture-safe)
 
 The `PostToolUse[ExitPlanMode]` hook (`log_plan.py`) appends the approved plan to
-`.decisions/<branch>.md`. It fires **only on a successful `ExitPlanMode`**. There is
+`.decisions/log.jsonl`. It fires **only on a successful `ExitPlanMode`**. There is
 no event for a verbal "looks good", so any approval that skips `ExitPlanMode` is lost.
 Follow this loop so capture is guaranteed.
 
@@ -29,5 +29,5 @@ When invoked:
    its own context and never trips plan mode, so delegating before `ExitPlanMode` is the
    main way capture gets skipped.
 
-5. **Verify.** After approval, confirm the entry landed in `.decisions/<branch>.md`. If
+5. **Verify.** After approval, confirm the entry landed in `.decisions/log.jsonl`. If
    it did not, the hook never fired — fall back to the `log-decision` skill to record it.
