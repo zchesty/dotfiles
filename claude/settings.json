@@ -67,6 +67,16 @@
         ]
       }
     ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/log_session.py\""
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [
