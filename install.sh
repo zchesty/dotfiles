@@ -24,13 +24,20 @@ link() {
 
 link zshrc     .zshrc
 link zprofile  .zprofile
-link gitconfig .gitconfig
-link gitignore .gitignore
 link vimrc     .vimrc
 
-# Global git hooks (referenced by core.hooksPath in gitconfig)
-mkdir -p "$HOME/.config/git"
-link git-hooks .config/git/hooks
+# Work machines and cloud envs (Gitpod etc.) manage ~/.gitconfig themselves;
+# DOTFILES_WORK=1 skips the git pieces so we don't clobber that identity.
+if [[ "${DOTFILES_WORK:-0}" == "1" ]]; then
+  echo "skip    git config (DOTFILES_WORK=1)"
+else
+  link gitconfig .gitconfig
+  link gitignore .gitignore
+
+  # Global git hooks (referenced by core.hooksPath in gitconfig)
+  mkdir -p "$HOME/.config/git"
+  link git-hooks .config/git/hooks
+fi
 
 mkdir -p "$HOME/.claude"
 link claude/CLAUDE.md            .claude/CLAUDE.md

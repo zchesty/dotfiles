@@ -27,6 +27,14 @@ bash install.sh
 
 `install.sh` also installs vim-plug and vim-go binaries (including `gopls`). Go must be installed and in `PATH` first for the vim-go step to run.
 
+### Work / cloud machines
+
+On machines that manage their own git identity (work laptop, Gitpod), symlinking `gitconfig` over `~/.gitconfig` clobbers it. Set `DOTFILES_WORK=1` to skip everything git-related (`gitconfig`, `gitignore`, global hooks) and install only the shell, vim, and Claude pieces:
+
+```sh
+DOTFILES_WORK=1 bash install.sh
+```
+
 ## Local overrides
 
 Machine-specific config goes in gitignored `*.local` files:
