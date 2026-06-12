@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""PostToolUse[ExitPlanMode] hook: append an approved plan to the branch log.
+"""PostToolUse[ExitPlanMode] hook: append an approved plan to the decision log.
+
+Entries are one JSON object per line in .decisions/log.jsonl, so the log is
+queryable with jq (e.g. all plans on a branch, everything from last week).
+load_branch_decisions.py renders the markdown view at session start.
 
 Where the plan text lives in the hook payload has changed across Claude Code
 versions: older builds passed it inline as tool_input["plan"], while current
@@ -58,8 +62,12 @@ except Exception:
 
 ddir = pathlib.Path(cwd) / ".decisions"
 ddir.mkdir(exist_ok=True)
-path = ddir / f"{branch.replace('/', '-')}.md"
 
-stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-with path.open("a") as f:
-    f.write(f"\n## Plan approved — {stamp}\n\n{plan}\n")
+entry = {
+    "ts": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M"),
+    "branch": branch,
+    "type": "plan",
+    "text": plan,
+}
+with (ddir / "log.jsonl").open("a") as f:
+    f.write(json.dumps(entry) + "\n")
