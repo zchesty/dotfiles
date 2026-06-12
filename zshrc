@@ -24,7 +24,14 @@ alias claude-yolo-haiku='claude --model haiku --permission-mode bypassPermission
 
 # Claude workflow shortcuts
 alias clauder='claude --resume'
+# Continue the most recent session directly, skipping the --resume picker
+alias claudec='claude --continue'
 alias claudep='claude --print'
+# Headless with a JSON envelope (result, cost, session_id) — pipe to jq
+alias claudej='claude --print --output-format json'
+
+# One-shot question, plain-text answer: ask "why does zsh do X"
+ask() { claude --print --output-format json "$@" | jq -r '.result'; }
 
 # Machine-local overrides (gitignored)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
