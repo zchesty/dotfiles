@@ -46,8 +46,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/git-push-guard.sh",
-            "if": "Bash(git push:*)"
+            "command": "bash ~/.claude/git-push-guard.sh"
           }
         ]
       }
@@ -98,5 +97,8 @@
     "type": "command",
     "command": "python3 ~/.claude/statusline-command.py"
   },
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "enabledPlugins": {
+    "slack@claude-plugins-official": true
+  }
 }
