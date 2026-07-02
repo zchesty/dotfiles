@@ -46,7 +46,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/git-push-guard.sh"
+            "command": "bash ~/.claude/git-push-guard.sh",
+            "if": "Bash(git push:*)"
           }
         ]
       }

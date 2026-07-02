@@ -14,9 +14,9 @@ deny() {
 
 cmd=$(jq -r '.tool_input.command // ""')
 
-# Self-guard: only act on commands that actually contain a `git push` (so this
-# hook can run on every Bash call and still catch compound commands like
-# `git reset --hard X && git push --force`).
+# Defensive no-op unless the command actually contains a `git push`. The hook is
+# scoped by `if: Bash(git push:*)` in settings.json; this guard keeps the script
+# from misfiring on unrelated commands should that filter ever be removed.
 case "$cmd" in
   *"git push"*) ;;
   *) exit 0 ;;
