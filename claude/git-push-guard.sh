@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# PreToolUse guard: hard-block `git push` to main/master.
-# Reads the hook JSON on stdin and emits a deny decision when the push
-# would land on a protected branch. Fails open (exit 0) on any parse hiccup
-# so ordinary pushes are never disrupted.
+# PreToolUse guard: hard-block `git push` to main/master, and hard-block any
+# force-push (--force / --force-with-lease / --force-if-includes / -f / +refspec).
+# Reads the hook JSON on stdin and emits a deny decision. Fails open (exit 0)
+# on any parse hiccup so ordinary pushes are never disrupted.
 
 protected_re='^(main|master)$'
 
@@ -14,22 +14,40 @@ deny() {
 
 cmd=$(jq -r '.tool_input.command // ""')
 
+# Defensive no-op unless the command actually contains a `git push`. The hook is
+# scoped by `if: Bash(git push:*)` in settings.json; this guard keeps the script
+# from misfiring on unrelated commands should that filter ever be removed.
+case "$cmd" in
+  *"git push"*) ;;
+  *) exit 0 ;;
+esac
+
 # Drop everything through the `git push` token; keep the args that follow.
 args=${cmd#*git push}
 
 # First non-flag arg is the remote; the rest are refspecs.
 remote=""
 refspecs=()
+force=""
 set -- $args
 while [ "$#" -gt 0 ]; do
   case "$1" in
-    -*) ;; # ignore flags (e.g. -u, --force, --delete)
+    --force|--force-with-lease|--force-with-lease=*|--force-if-includes)
+      force=1 ;;
+    --*) ;; # other long flags (e.g. --set-upstream, --follow-tags)
+    -*f*) force=1 ;; # short-flag bundle containing -f (e.g. -f, -uf)
+    -*) ;; # other short flags (e.g. -u, -n)
+    +*) force=1 ;; # a leading-+ refspec is a force push
     *)
       if [ -z "$remote" ]; then remote="$1"; else refspecs+=("$1"); fi
       ;;
   esac
   shift
 done
+
+if [ -n "$force" ]; then
+  deny "Force-push is blocked by policy. Make a follow-up commit instead of rewriting history; if a force-push is truly required, run it yourself."
+fi
 
 # Destination branch of a refspec is the part after a colon, else the whole token.
 ref_is_protected() {

@@ -98,5 +98,8 @@
     "type": "command",
     "command": "python3 ~/.claude/statusline-command.py"
   },
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "enabledPlugins": {
+    "slack@claude-plugins-official": true
+  }
 }
