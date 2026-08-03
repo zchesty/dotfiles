@@ -36,9 +36,9 @@
       "Read(~/.ssh/**)",
       "Read(~/.aws/**)"
     ],
-    "defaultMode": "acceptEdits"
+    "defaultMode": "auto"
   },
-  "model": "opus",
+  "model": "opus[1m]",
   "hooks": {
     "PreToolUse": [
       {
@@ -98,8 +98,8 @@
     "type": "command",
     "command": "python3 ~/.claude/statusline-command.py"
   },
-  "skipDangerousModePermissionPrompt": true,
   "enabledPlugins": {
     "slack@claude-plugins-official": true
-  }
+  },
+  "skipDangerousModePermissionPrompt": true
 }
